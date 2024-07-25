@@ -9,6 +9,8 @@ import { healthRouter } from "@/app/health/api/health-router";
 import { ConsoleLogger } from "@/shared/logger/console-logger";
 import { Logger } from "@/shared/logger/logger";
 
+import { exchangeRouter } from "../contexts/exchange/infrastructure/rest-api/Exchange.router";
+import { rateRouter } from "../contexts/rates/infrastructure/rest-api/Rate.router";
 import { authRouter } from "../contexts/Users/infrastructure/rest-api/AuthUser.router";
 import { userRouter } from "../contexts/Users/infrastructure/rest-api/User.router";
 
@@ -24,6 +26,8 @@ export class Server {
     this.app.use("/api/health", healthRouter);
     this.app.use("/api/users", userRouter);
     this.app.use("/api/auth", authRouter);
+    this.app.use("/api/exchanges", exchangeRouter);
+    this.app.use("/api/config/rates", rateRouter);
   }
 
   async start(): Promise<void> {
