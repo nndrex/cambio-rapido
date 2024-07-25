@@ -1,13 +1,15 @@
+/* eslint-disable unicorn/no-null */
 import { ConsoleLogger } from "@/src/contexts/shared/logger/console-logger";
 
-import { User } from "../../domain/user";
+import { IUser, User } from "../../domain/user";
 import * as UserModel from "../../domain/user.model";
 import { UserRepository } from "../../domain/user.repository";
 
 export class MongoUserRepository implements UserRepository {
   constructor(private readonly logger: ConsoleLogger) {}
-  findUserByEmail(email: string): Promise<User | null> {
-    throw new Error("Method not implemented." + email);
+  async findUserByEmail(email: string): Promise<User | null> {
+    const userFinded = (await UserModel.User.findOne({ email })) as IUser;
+    return new User(userFinded);
   }
   async createUser(user: User): Promise<void> {
     const primitiveUser = user.toPrimitive();
@@ -16,6 +18,7 @@ export class MongoUserRepository implements UserRepository {
       name: primitiveUser.name,
       email: primitiveUser.email,
       password: primitiveUser.password,
+      role: primitiveUser.role,
     });
     try {
       await newUser.save();

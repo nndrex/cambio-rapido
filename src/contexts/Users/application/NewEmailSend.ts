@@ -8,5 +8,5 @@ export class newEmailSend {
     private readonly userRepository: UserRepository,
   ) {}
 
-  async sendEmail(email: string): Promise<void> {}
+  //async sendEmail(email: string): Promise<void> {}
 }
