@@ -12,4 +12,22 @@ export class MongoRateRepository implements RateRepository {
     })) as IRate;
     return new Rate(rateFinded);
   }
+  async create(rate: Rate): Promise<void> {
+    await RateModel.Rate.create(rate.toPrimitive());
+    return;
+  }
+  async update(id: string, rate: Rate): Promise<void> {
+    await RateModel.Rate.updateOne({ _id: id }, rate.toPrimitive());
+    return;
+  }
+  async delete(id: string): Promise<void> {
+    await RateModel.Rate.deleteOne({ _id: id });
+    return;
+  }
+  async findById(id: string): Promise<Rate> {
+    const rateFinded = (await RateModel.Rate.findOne({
+      _id: id,
+    })) as IRate;
+    return new Rate(rateFinded);
+  }
 }
